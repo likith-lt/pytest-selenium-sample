@@ -12,25 +12,26 @@ def driver(request):
     desired_caps = {}
 
     browser = {
-        "platform": "Windows 10",
-        "browserName": "chrome",
-        "version": "73"
+        "browserName": "Chrome",
+        "browserVersion": "98.0"
     }
 
     desired_caps.update(browser)
-    test_name = request.node.name
-    build = environ.get('BUILD', "Sample PY Build")
+    build = environ.get('BUILD', "PyTest - Python")
     tunnel_id = environ.get('TUNNEL', False)
     username = environ.get('LT_USERNAME', None)
     access_key = environ.get('LT_ACCESS_KEY', None)
 
     selenium_endpoint = "http://{}:{}@hub.lambdatest.com/wd/hub".format(username, access_key)
+    desired_caps['platformName'] = "Windows 11"
     desired_caps['build'] = build
-    desired_caps['name'] = test_name
+    desired_caps['name'] = "PyTest Demo Test"
     desired_caps['video']= True
     desired_caps['visual']= True
     desired_caps['network']= True
     desired_caps['console']= True
+    desired_caps['terminal']= True
+
 
     executor = RemoteConnection(selenium_endpoint, resolve_ip=False)
     browser = webdriver.Remote(
